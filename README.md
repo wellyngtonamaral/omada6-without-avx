@@ -52,83 +52,16 @@ MONGODB_HOST=mondodb_hostname
 OMADA_DB=omada
 ```
 
-### 2) Use the provided `docker-compose.yml`:
+### 2) Use the provided `docker-compose.yml` and `.env`:
 
-```yaml
-services:
+Clone this repository and navigate to its directory:
 
-  postgres:
-    image: ghcr.io/ferretdb/postgres-documentdb:17
-    restart: unless-stopped
-    user: "1001:110" # Use your host user's UID and GID
-    environment:
-      - PUID=1001
-      - PGID=110
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-    volumes:
-      - ./db:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -h 127.0.0.1"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
-
-  ferretdb:
-    image: ghcr.io/ferretdb/ferretdb:2.7.0
-    restart: unless-stopped
-    ports:
-      - 27017:27017
-    environment:
-      - PUID=1001
-      - PGID=110
-      - FERRETDB_POSTGRESQL_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
-    depends_on:
-      postgres:
-        condition: service_healthy
-
-  controller:
-    image: mbentley/omada-controller:6.0
-    restart: unless-stopped
-    ulimits:
-      nofile:
-        soft: 4096
-        hard: 8192
-    stop_grace_period: 60s
-    network_mode: host
-    environment:
-      - PUID=1001
-      - PGID=110
-      - MANAGE_HTTP_PORT=8088
-      - MANAGE_HTTPS_PORT=8043
-      - PORTAL_HTTP_PORT=8088
-      - PORTAL_HTTPS_PORT=8843
-      - PORT_APP_DISCOVERY=27001
-      - PORT_ADOPT_V1=29812
-      - PORT_UPGRADE_V1=29813
-      - PORT_MANAGER_V1=29811
-      - PORT_MANAGER_V2=29814
-      - PORT_DISCOVERY=29810
-      - PORT_TRANSFER_V2=29815
-      - PORT_RTTY=29816
-      - SHOW_SERVER_LOGS=true
-      - SHOW_MONGODB_LOGS=false
-      - TZ=America/Sao_Paulo
-      - MONGO_EXTERNAL=true
-      - EAP_MONGOD_URI=mongodb://${POSTGRES_USER}:${POSTGRES_PASSWORD}@{MONGODB_HOST}/omada
-    volumes:
-      - ./data:/opt/tplink/EAPController/data
-      - ./logs:/opt/tplink/EAPController/logs
-    depends_on:
-      ferretdb:
-        condition: service_healthy
-
-networks:
-  default:
-    name: omada6
+```bash
+git clone https://github.com/wellyngtonamaral/omada6-without-avx.git
+cd omada6-without-avx
 ```
+
+Ensure you have created the `.env` file as shown in step 1. The `docker-compose.yml` is already included in the repository, so you can start the stack directly.
 
 ### 3) Launch the stack:
 
@@ -159,6 +92,3 @@ In my tests, using the **built-in migration feature of Omada Controller** worked
 For official migration details and upgrade notes, refer to the maintainer's repository:
 
 [Omada Controller Migration Guide](https://github.com/mbentley/docker-omada-controller)
-
----
----
