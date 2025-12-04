@@ -71,8 +71,3 @@ services:
 networks:
   default:
     name: omada6
-POSTGRES_USER=omada
-POSTGRES_PASSWORD=super_secret
-POSTGRES_DB=postgres # Do not change this
-MONGODB_HOST=mondodb_hostname
-OMADA_DB=omada
