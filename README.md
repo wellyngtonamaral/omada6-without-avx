@@ -2,6 +2,8 @@
 
 ## Introduction
 
+Omada Controller is TP-Link's centralized management platform for Omada devices, providing network configuration, monitoring, and control. By default, Omada Controller relies on **MongoDB** as its internal database engine.
+
 Starting with MongoDB 5.0, official builds require CPUs with the **AVX instruction set**. This requirement continues in MongoDB 6.x and later. Many older servers and entry-level CPUs lack AVX, making it impossible to run the default Omada Controller v6 image with its internal MongoDB.
 
 This project provides a solution: **replace MongoDB with FerretDB**, a MongoDB-compatible proxy that stores data in PostgreSQL. This allows Omada Controller v6 to run without AVX while maintaining compatibility with MongoDB drivers.
