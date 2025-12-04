@@ -92,3 +92,12 @@ In my tests, using the **built-in migration feature of Omada Controller** worked
 For official migration details and upgrade notes, refer to the maintainer's repository:
 
 [Omada Controller Migration Guide](https://github.com/mbentley/docker-omada-controller)
+
+---
+
+## References
+
+- [Omada Controller GitHub](https://github.com/mbentley/docker-omada-controller)
+- [MongoDB Official Site](https://www.mongodb.com)
+- [PostgreSQL Official Site](https://www.postgresql.org)
+- [FerretDB Official Site](https://www.ferretdb.io)
